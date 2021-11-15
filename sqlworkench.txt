@@ -6,7 +6,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_cur
 const mysqlconnection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Laliit@26",
+    password: "---------",
     database:"novdb",
     multipleStatements: true
 });
