@@ -1,0 +1,39 @@
+connecting db with backend->
+    run this command if getting authentication error
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_current_password';
+
+-------------------------------------------------------------------
+const mysqlconnection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "Laliit@26",
+    database:"novdb",
+    multipleStatements: true
+});
+
+mysqlconnection.connect((err) => {
+    if (!err) {
+        console.log("mysql connected");
+    }
+    else {
+        console.log(err);
+    }
+})
+-------------------------------------------------------------------------------
+const userdata = (req, res) => {
+    mysqlconnection.query('select * from tb_user', (err, rows, fields) => {
+        if (err) {
+            console.log(err)
+            res.send({
+                status: 400,
+                message: 'db error',
+            })
+            return;
+        }
+        res.send({
+            status: 200,
+            data: rows,
+        })
+    })
+};
+---------------------------------------------------------------------------------

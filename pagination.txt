@@ -1,0 +1,27 @@
+pagination
+-----------------------------------------------------
+
+app.get('/home',async (req, res) => {
+    let skip = req.query.skip || 0;
+    try {
+        let todos = await SaleModel.aggregate([
+            {
+                $facet: {
+                    data: [{ "$skip": parseInt(skip) }, { "$limit": 3 }]
+                }
+            }
+        ]);
+        console.log(todos);
+        res.send({
+            status: 200,
+            message: "successful",
+            value: todos
+        });
+    }
+    catch (err) {
+        res.send({
+            status: 400,
+            message:"error"
+        })
+}
+});

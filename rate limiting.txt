@@ -1,0 +1,32 @@
+rate limiting
+
+const accesses = {};
+
+app.get('/index/:userid', (req, res) => {
+    const { userid } = req.params;
+    if (userid==null)
+    {
+        res.send({
+            status: 401,
+            message:"missing user id"
+        })
+        return;
+    }
+
+    if (userid in accesses) {
+        const previoustime = accesses[userid];
+        if (Date.now() - previoustime < 5000) {
+            console.log(accesses, Date.now());
+            res.send({
+                status: "404",
+                message: "max limit reached"
+            });
+            return;
+        }
+        
+    }
+    accesses[userid] = Date.now();
+    res.send({
+        status: `hii ${userid}`
+    })
+})
